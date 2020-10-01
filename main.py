@@ -3,9 +3,13 @@ import threading
 import time
 import os, shutil
 from pathlib import Path
+import datetime
 
 def thread_function(setting):
-    shutil.copytree(setting.get_backup_location(), setting.get_save_location())
+
+    now = datetime.datetime.now()
+
+    shutil.copytree(setting.get_backup_location(), Path(setting.get_save_location(),"File Backup [" + now.strftime("%Y-%m-%d %H%M") + "]"))
     
     print("DONE!")
     # time.sleep(setting.get_time_between())
@@ -30,7 +34,7 @@ def main():
                 break
 
         setting.save_settings()
-    
+
     backupThread = threading.Thread(target=thread_function, args=(setting,))
 
     backupThread.start()
