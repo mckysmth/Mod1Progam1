@@ -17,7 +17,7 @@ def thread_function(setting):
         print("File have been copied to " + str(Path(setting.get_save_location(),"File Backup [" + now.strftime("%Y-%m-%d %H%M") + "]")))
 
         time.sleep(setting.get_time_between())
-        time.sleep(5)
+        # time.sleep(5)
 
 
     
@@ -29,16 +29,16 @@ def main():
 
     if not Path("settings.json").exists():
         while True:
-            if setting.set_time_between(int(input("Backup frequency [Hours]: "))):
+            if setting.set_time_between(int(input("Frequency to between backups [Hours]: "))):
                 break
 
         while True:
-            source = input("Folder to backup: ")
+            source = input("Source folder to backup: ")
             if setting.set_backup_location(str(Path(source))):
                 break
 
         while True:
-            destination = input("Folder to save backup: ")
+            destination = input("Destination folder to save backup: ")
             if setting.set_save_location(str(Path(destination))):
                 break
 
@@ -52,14 +52,14 @@ def main():
         userInput.lower()
         if userInput == 'stop':
             sys.exit()
-        elif userInput == 'cd destination':
-            setting.set_save_location(input("Folder to save backup: "))
+        elif userInput == 'c destination':
+            setting.set_save_location(input("Source folder to backup: "))
             setting.save_settings()
-        elif userInput == 'cd source':
-            setting.set_save_location(input("Folder to backup: "))
+        elif userInput == 'c source':
+            setting.set_save_location(input("Destination folder to save backup: "))
             setting.save_settings()
-        elif userInput == 'cd time':
-            setting.set_save_location(input("Backup frequency [Hours]: "))
+        elif userInput == 'c time':
+            setting.set_save_location(input("Frequency to between backups [Hours]: "))
             setting.save_settings()
         else:
             print ('Invalid Command')
