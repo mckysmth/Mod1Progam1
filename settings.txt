@@ -1,1 +1,0 @@
-{'save_location': '/Users/mckaysmith/Desktop/untitled folder', 'backup_location': '/Users/mckaysmith/Desktop/PLayGround', 'time_between': 3600}

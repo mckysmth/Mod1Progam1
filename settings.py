@@ -6,14 +6,15 @@ import ast
 class Settings:
 
     def __init__(self):
-        if not Path("settings.txt").exists():
+        self.BackupIsOn = True
+        if not Path("settings.json").exists():
             self.data = {
                 "save_location": "",
                 "backup_location": "",
                 "time_between": 0
             }
         else:
-            self.data = ast.literal_eval(Path('settings.txt').read_text())
+            self.data = ast.literal_eval(Path('settings.json').read_text())
     
     def set_save_location(self, location):
         if len(location) > 0:
@@ -31,12 +32,19 @@ class Settings:
             return False
 
     def set_time_between(self, hours):
-        if str(hours).isdigit() and int(hours) > 0:
-            seconds = int(hours) * 60 * 60
+        if hours > 0:
+            seconds = hours * 60 * 60
             self.data["time_between"] = seconds
             return True
         else:
             return False
+
+
+    def set_BackupIsOn(self, BackupIsOn):
+        self.BackupIsOn = BackupIsOn
+
+    def get_BackupIsOn(self):
+        return self.BackupIsOn
 
     def get_save_location(self):
         return self.data["save_location"]
@@ -48,7 +56,7 @@ class Settings:
         return self.data["time_between"]
 
     def save_settings(self):
-        settingsFile = open('settings.txt', 'w')  
+        settingsFile = open('settings.json', 'w')  
 
         settingsFile.write(str(self.data))
 
