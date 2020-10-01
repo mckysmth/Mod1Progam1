@@ -17,7 +17,7 @@ def thread_function(setting):
         print("File have been copied to " + str(Path(setting.get_save_location(),"File Backup [" + now.strftime("%Y-%m-%d %H%M") + "]")))
 
         time.sleep(setting.get_time_between())
-        # time.sleep(5)
+        # time.sleep(30)
 
 
     

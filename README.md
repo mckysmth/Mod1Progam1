@@ -17,6 +17,8 @@ or
 <br />
 click "run" button
 
+![alt text](program_running.png)
+
 # Useful Sites
 * [An Intro to Threading in Python](https://realpython.com/intro-to-python-threading/)
 * [Stack Overflow](https://stackoverflow.com)
