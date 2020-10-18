@@ -12,14 +12,30 @@ def thread_function(setting):
 
         now = datetime.datetime.now()
 
-        shutil.copytree(setting.get_backup_location(), Path(setting.get_save_location(),"File Backup [" + now.strftime("%Y-%m-%d %H%M") + "]"))
+        # shutil.copytree(setting.get_backup_location(), Path(setting.get_save_location(),"File Backup [" + now.strftime("%Y-%m-%d %H%M") + "]"))
 
         print("File have been copied to " + str(Path(setting.get_save_location(),"File Backup [" + now.strftime("%Y-%m-%d %H%M") + "]")))
+
+        delete_oldies(setting, now)
 
         time.sleep(setting.get_time_between())
         # time.sleep(30)
 
+def delete_oldies(setting, now):
+    for filename in os.listdir(setting.get_save_location()):
+        cDate = os.stat(os.path.join(setting.get_save_location(), filename)).st_ctime
 
+        folderDate = datetime.date.fromtimestamp(cDate)
+        nowDate = now.date()
+
+        if (nowDate - folderDate).days >= setting.get_keep_backups():
+            shutil.rmtree(os.path.join(setting.get_save_location(), filename))
+
+        
+
+        # for subfolder in subfolders:
+        #     print('SUBFOLDER OF ' + folderName + ': ' + subfolder)
+    
     
 
 
@@ -29,17 +45,19 @@ def main():
 
     if not Path("settings.json").exists():
         while True:
-            if setting.set_time_between(int(input("Frequency to between backups [Hours]: "))):
+            if setting.set_time_between(int(input("Frequency to between backups [Minutes]: "))):
                 break
 
         while True:
-            source = input("Source folder to backup: ")
-            if setting.set_backup_location(str(Path(source))):
+            if setting.set_backup_location(str(Path(input("Source folder to backup: ")))):
                 break
 
         while True:
-            destination = input("Destination folder to save backup: ")
-            if setting.set_save_location(str(Path(destination))):
+            if setting.set_save_location(str(Path(input("Destination folder to save backup: ")))):
+                break
+
+        while True:
+            if setting.set_keep_backups(int(input("Keep backups for [Days]: "))):
                 break
 
         setting.save_settings()

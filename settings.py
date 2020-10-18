@@ -11,7 +11,8 @@ class Settings:
             self.data = {
                 "save_location": "",
                 "backup_location": "",
-                "time_between": 0
+                "time_between": 0,
+                "keep_backups": 0
             }
         else:
             self.data = ast.literal_eval(Path('settings.json').read_text())
@@ -31,10 +32,17 @@ class Settings:
         else:
             return False
 
-    def set_time_between(self, hours):
-        if hours > 0:
-            seconds = hours * 60 * 60
+    def set_time_between(self, minutes):
+        if minutes > 0:
+            seconds = minutes * 60
             self.data["time_between"] = seconds
+            return True
+        else:
+            return False
+
+    def set_keep_backups(self, days):
+        if days > 0:
+            self.data["keep_backups"] = days
             return True
         else:
             return False
@@ -54,6 +62,9 @@ class Settings:
 
     def get_time_between(self):
         return self.data["time_between"]
+
+    def get_keep_backups(self):
+        return self.data["keep_backups"]
 
     def save_settings(self):
         settingsFile = open('settings.json', 'w')  
